@@ -5,7 +5,7 @@ using UnityEngine;
 public class DrawRay : MonoBehaviour
 {
     public float lineLength = 0.15f;
-    private bool pressed = false;
+    private bool shoot = false;
     public LineRenderer lineRenderer;
 
 
@@ -24,16 +24,17 @@ public class DrawRay : MonoBehaviour
         GameObject boom= GameObject.Find("Explosion");
         if (Input.GetKeyDown("space"))
         {
-            if (pressed)
-                pressed = false;
+            if (shoot)
+                shoot = false;
             else
-                pressed = true;
+                shoot = true;
         }
 
-        if (pressed)
+        if (shoot)
         {
             RaycastHit hit;
-            DrawLine(position, direction * lineLength, 0.005f);
+
+            DrawLine(position, direction * lineLength + position, 0.005f);
             if (Physics.Raycast(transform.position, direction, out hit, lineLength))
             {
                 boom.transform.position = hit.point;
@@ -47,7 +48,7 @@ public class DrawRay : MonoBehaviour
         else
         {
             
-            DrawLine(position, direction * 0,02f);
+            DrawLine(position, position);
             boom.transform.position = boomIniPos;
         }
         
